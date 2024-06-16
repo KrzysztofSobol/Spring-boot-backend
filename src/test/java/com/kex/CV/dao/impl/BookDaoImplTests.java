@@ -1,5 +1,6 @@
 package com.kex.CV.dao.impl;
 
+import com.kex.CV.TestDataUtil;
 import com.kex.CV.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,11 +23,7 @@ public class BookDaoImplTests {
 
     @Test
     public void testThatCreateBookGeneratesCorrectSql(){
-        Book book = Book.builder()
-                .isbn("3124-4131-3451")
-                .title("Iron Man")
-                .authorId(1L)
-                .build();
+        Book book = TestDataUtil.createTestBook();
         underTest.create(book);
 
         verify(jdbcTemplate).update(
@@ -37,7 +34,7 @@ public class BookDaoImplTests {
 
     @Test
     public void testThatFindOneGeneratesCorrectSql(){
-        underTest.findOne("3124-4131-3451");
+        underTest.find("3124-4131-3451");
         verify(jdbcTemplate).query(
                 eq("SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1"),
                 ArgumentMatchers.<BookDaoImpl.BookRowMapper>any(),
