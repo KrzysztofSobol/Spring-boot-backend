@@ -23,7 +23,7 @@ public class BookDaoImplTests {
 
     @Test
     public void testThatCreateBookGeneratesCorrectSql(){
-        Book book = TestDataUtil.createTestBook();
+        Book book = TestDataUtil.createTestBookA();
         underTest.create(book);
 
         verify(jdbcTemplate).update(
@@ -34,7 +34,7 @@ public class BookDaoImplTests {
 
     @Test
     public void testThatFindOneGeneratesCorrectSql(){
-        underTest.find("3124-4131-3451");
+        underTest.findOne("3124-4131-3451");
         verify(jdbcTemplate).query(
                 eq("SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1"),
                 ArgumentMatchers.<BookDaoImpl.BookRowMapper>any(),

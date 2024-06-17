@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,11 +31,32 @@ public class BookDaoImplIntegrationTests {
     public void testThatBookCanBeCreatedAndRecalled(){
         Author author = TestDataUtil.createTestAuthorA();
         authorDao.create(author);
-        Book book = TestDataUtil.createTestBook();
+        Book book = TestDataUtil.createTestBookA();
         book.setAuthorId(author.getId());
         underTest.create(book);
-        Optional<Book> result = underTest.find(book.getIsbn());
+        Optional<Book> result = underTest.findOne(book.getIsbn());
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(book);
+    }
+
+    @Test
+    public void testThatMultipleBooksCanBeCreatedAndRecalled(){
+        Author authorA = TestDataUtil.createTestAuthorA();
+        authorDao.create(authorA);
+
+        Book bookA = TestDataUtil.createTestBookA();
+        Book bookB = TestDataUtil.createTestBookB();
+        Book bookC = TestDataUtil.createTestBookC();
+        underTest.create(bookA);
+        underTest.create(bookB);
+        underTest.create(bookC);
+
+        bookA.setAuthorId(authorA.getId());
+        bookB.setAuthorId(authorA.getId());
+        bookC.setAuthorId(authorA.getId());
+
+        List<Book> result = underTest.find();
+        assertThat(result).hasSize(3);
+        assertThat(result).containsExactly(bookA, bookB, bookC);
     }
 }
