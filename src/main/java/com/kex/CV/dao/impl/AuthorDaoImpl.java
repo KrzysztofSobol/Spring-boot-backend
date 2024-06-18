@@ -53,4 +53,20 @@ public class AuthorDaoImpl implements AuthorDao{
                     .build();
         }
     }
+
+    @Override
+    public void update(Long id, Author author) {
+        jdbcTemplate.update(
+                "UPDATE authors SET id = ?, name = ?, age = ? WHERE id = ?",
+                author.getId(), author.getName(), author.getAge(), id
+        );
+    }
+
+    @Override
+    public void delete(long id) {
+        jdbcTemplate.update(
+                "DELETE FROM authors WHERE id = ?",
+                id
+        );
+    }
 }

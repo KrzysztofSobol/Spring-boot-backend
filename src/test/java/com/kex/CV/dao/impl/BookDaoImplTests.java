@@ -41,4 +41,24 @@ public class BookDaoImplTests {
                 eq("3124-4131-3451")
         );
     }
+
+    @Test
+    public void testThatUpdateGeneratesCorrectSql(){
+        Book book = TestDataUtil.createTestBookA();
+        underTest.update("1231-2314-2132", book);
+
+        verify(jdbcTemplate).update(
+                eq("UPDATE books SET isbn = ?, title = ?, author_id = ? WHERE isbn = ?"),
+                eq(book.getIsbn()), eq(book.getTitle()), eq(book.getAuthorId()), eq("1231-2314-2132")
+        );
+    }
+
+    @Test
+    public void testThatDeleteGeneratesCorrectSql(){
+        underTest.delete("1231-2314-2132");
+        verify(jdbcTemplate).update(
+                eq("DELETE FROM books WHERE isbn = ?"),
+                eq("1231-2314-2132")
+        );
+    }
 }
