@@ -1,4 +1,4 @@
-package com.kex.CV.domain;
+package com.kex.CV.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "author")
-public class Author {
+public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_id_seq")
     private Long id; // Long can be null

@@ -1,57 +1,57 @@
 package com.kex.CV;
 
-import com.kex.CV.domain.Author;
-import com.kex.CV.domain.Book;
+import com.kex.CV.domain.entities.AuthorEntity;
+import com.kex.CV.domain.entities.BookEntity;
 
 public class TestDataUtil {
     private TestDataUtil() {
     }
 
-    public static Author createTestAuthorA() {
-        return Author.builder()
+    public static AuthorEntity createTestAuthorA() {
+        return AuthorEntity.builder()
                 .id(1L)
                 .name("Tony Stark")
                 .age(28)
                 .build();
     }
 
-    public static Author createTestAuthorB() {
-        return Author.builder()
+    public static AuthorEntity createTestAuthorB() {
+        return AuthorEntity.builder()
                 .id(2L)
                 .name("Megan Fox")
                 .age(21)
                 .build();
     }
 
-    public static Author createTestAuthorC() {
-        return Author.builder()
+    public static AuthorEntity createTestAuthorC() {
+        return AuthorEntity.builder()
                 .id(3L)
                 .name("John Wick")
                 .age(30)
                 .build();
     }
 
-    public static Book createTestBookA(final Author author) {
-        return Book.builder()
+    public static BookEntity createTestBookA(final AuthorEntity authorEntity) {
+        return BookEntity.builder()
                 .isbn("1111-1111-1111")
                 .title("Iron Man")
-                .author(author)
+                .authorEntity(authorEntity)
                 .build();
     }
 
-    public static Book createTestBookB(final Author author) {
-        return Book.builder()
+    public static BookEntity createTestBookB(final AuthorEntity authorEntity) {
+        return BookEntity.builder()
                 .isbn("2222-2222-2222")
                 .title("Iron Man 2")
-                .author(author)
+                .authorEntity(authorEntity)
                 .build();
     }
 
-    public static Book createTestBookC(final Author author) {
-        return Book.builder()
+    public static BookEntity createTestBookC(final AuthorEntity authorEntity) {
+        return BookEntity.builder()
                 .isbn("3333-3333-3333")
                 .title("Iron Man 3")
-                .author(author)
+                .authorEntity(authorEntity)
                 .build();
     }
 }
