@@ -4,9 +4,15 @@ import com.kex.CV.domain.dto.AuthorDto;
 import com.kex.CV.domain.entities.AuthorEntity;
 import com.kex.CV.mappers.Mapper;
 import com.kex.CV.services.AuthorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AuthorController {
@@ -20,9 +26,15 @@ public class AuthorController {
     }
 
     @PostMapping(path = "/authors")
-    public AuthorDto createAuthor(@RequestBody AuthorDto author){
+    public ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto author){
         AuthorEntity authorEntity = authorMapper.mapFrom(author);
         AuthorEntity savedAuthorService = authorService.createAuthor(authorEntity);
-        return authorMapper.mapTo(savedAuthorService);
+        return new ResponseEntity<>(authorMapper.mapTo(savedAuthorService), HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/authors")
+    public List<AuthorDto> listAuthors(){
+        List<AuthorEntity> authors = authorService.findAll();
+        return authors.stream().map(authorMapper::mapTo).collect(Collectors.toList());
     }
 }

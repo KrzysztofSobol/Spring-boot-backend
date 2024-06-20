@@ -1,5 +1,7 @@
 package com.kex.CV;
 
+import com.kex.CV.domain.dto.AuthorDto;
+import com.kex.CV.domain.dto.BookDto;
 import com.kex.CV.domain.entities.AuthorEntity;
 import com.kex.CV.domain.entities.BookEntity;
 
@@ -31,11 +33,19 @@ public class TestDataUtil {
                 .build();
     }
 
-    public static BookEntity createTestBookA(final AuthorEntity authorEntity) {
+    public static BookEntity createTestBookEntityA(final AuthorEntity authorEntity) {
         return BookEntity.builder()
                 .isbn("1111-1111-1111")
                 .title("Iron Man")
                 .authorEntity(authorEntity)
+                .build();
+    }
+
+    public static BookDto createTestBookDtoA(final AuthorDto authorDto) {
+        return BookDto.builder()
+                .isbn("1111-1111-1111")
+                .title("Iron Man")
+                .author(authorDto)
                 .build();
     }
 
