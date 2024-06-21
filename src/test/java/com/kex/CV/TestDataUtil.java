@@ -17,6 +17,14 @@ public class TestDataUtil {
                 .build();
     }
 
+    public static AuthorDto createTestAuthorDtoA() {
+        return AuthorDto.builder()
+                .id(1L)
+                .name("Tony Stark")
+                .age(28)
+                .build();
+    }
+
     public static AuthorEntity createTestAuthorB() {
         return AuthorEntity.builder()
                 .id(2L)
@@ -35,7 +43,7 @@ public class TestDataUtil {
 
     public static BookEntity createTestBookEntityA(final AuthorEntity authorEntity) {
         return BookEntity.builder()
-                .isbn("1111-1111-1111")
+                .isbn("1111-1111-1111-1111")
                 .title("Iron Man")
                 .authorEntity(authorEntity)
                 .build();

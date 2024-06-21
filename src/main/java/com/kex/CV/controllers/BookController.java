@@ -6,10 +6,10 @@ import com.kex.CV.mappers.Mapper;
 import com.kex.CV.services.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class BookController {
@@ -27,5 +27,19 @@ public class BookController {
         BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
         BookDto savedBookDto = bookMapper.mapTo(savedBookEntity);
         return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/books")
+    public List<BookDto> listBook(){
+        List<BookEntity> bookEntites = bookService.findAll();
+        return bookEntites.stream().map(bookMapper::mapTo).collect(java.util.stream.Collectors.toList());
+    }
+
+    @GetMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn){
+        Optional<BookEntity> book = bookService.find(isbn);
+
+        return book.map(bookEntity -> new ResponseEntity<>(bookMapper.mapTo(bookEntity), HttpStatus.OK)).
+                orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
