@@ -51,7 +51,7 @@ public class TestDataUtil {
 
     public static BookDto createTestBookDtoA(final AuthorDto authorDto) {
         return BookDto.builder()
-                .isbn("1111-1111-1111")
+                .isbn("1111-1111-1111-1111")
                 .title("Iron Man")
                 .author(authorDto)
                 .build();

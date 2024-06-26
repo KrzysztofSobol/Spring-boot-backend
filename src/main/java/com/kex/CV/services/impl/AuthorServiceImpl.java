@@ -4,6 +4,7 @@ import com.kex.CV.domain.dto.AuthorDto;
 import com.kex.CV.domain.entities.AuthorEntity;
 import com.kex.CV.repositories.AuthorRepository;
 import com.kex.CV.services.AuthorService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +39,16 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public boolean exists(Long id) {
         return authorRepository.existsById(id);
+    }
+
+    @Override
+    public AuthorEntity partialUpdate(Long id, AuthorEntity authorEntity) {
+        authorEntity.setId(id);
+
+        return authorRepository.findById(id).map(existingAuthor ->{
+            Optional.ofNullable(authorEntity.getName()).ifPresent(existingAuthor::setName);
+            Optional.ofNullable(authorEntity.getAge()).ifPresent(existingAuthor::setAge);
+            return authorRepository.save(existingAuthor);
+        }).orElseThrow(() -> new RuntimeException("Author does not exist"));
     }
 }

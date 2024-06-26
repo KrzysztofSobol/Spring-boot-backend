@@ -172,4 +172,23 @@ public class AuthorControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.age").value(author.getAge())
         );
     }
+
+    @Test
+    public void testThatPartialUpdateReturnsAnUpdatedAuthor() throws Exception {
+        AuthorEntity authorEntity = TestDataUtil.createTestAuthorA();
+        authorService.save(authorEntity);
+
+        String authorJson = "{\"name\":\"Slim Shady\"}";
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/authors/" + authorEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorJson)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").value(authorEntity.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.name").value("Slim Shady")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.age").value(28)
+        );
+    }
 }
