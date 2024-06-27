@@ -156,4 +156,27 @@ public class BookControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.title").value("Iron Man")
         );
     }
+
+    @Test
+    public void testThatDeleteBookReturnsHttpStatus404WhenNotFound() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/books/1111-1111-1111-1112")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testThatDeleteBookReturnsHttpStatus204WhenFound() throws Exception {
+        BookEntity bookA = TestDataUtil.createTestBookEntityA(null);
+        bookService.createUpdateBook(bookA.getIsbn(), bookA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/books/" + bookA.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNoContent()
+        );
+    }
 }

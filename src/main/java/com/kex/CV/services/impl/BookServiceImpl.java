@@ -3,6 +3,8 @@ package com.kex.CV.services.impl;
 import com.kex.CV.domain.entities.BookEntity;
 import com.kex.CV.repositories.BookRepository;
 import com.kex.CV.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Page<BookEntity> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
+    @Override
     public Optional<BookEntity> find(String isbn) {
         return bookRepository.findById(isbn);
     }
@@ -47,5 +54,10 @@ public class BookServiceImpl implements BookService {
             Optional.ofNullable(bookEntity.getTitle()).ifPresent(existingBook::setTitle);
             return bookRepository.save(existingBook);
         }).orElseThrow(() -> new RuntimeException("Book does not exist"));
+    }
+
+    @Override
+    public void delete(String isbn) {
+        bookRepository.deleteById(isbn);
     }
 }

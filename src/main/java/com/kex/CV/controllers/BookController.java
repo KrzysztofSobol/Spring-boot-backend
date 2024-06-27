@@ -4,6 +4,8 @@ import com.kex.CV.domain.dto.BookDto;
 import com.kex.CV.domain.entities.BookEntity;
 import com.kex.CV.mappers.Mapper;
 import com.kex.CV.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +38,9 @@ public class BookController {
     }
 
     @GetMapping(path = "/books")
-    public List<BookDto> listBook(){
-        List<BookEntity> bookEntites = bookService.findAll();
-        return bookEntites.stream().map(bookMapper::mapTo).collect(java.util.stream.Collectors.toList());
+    public Page<BookDto> listBook(Pageable pageable){
+        Page<BookEntity> books = bookService.findAll(pageable);
+        return books.map(bookMapper::mapTo);
     }
 
     @GetMapping(path = "/books/{isbn}")
@@ -59,6 +61,17 @@ public class BookController {
         BookEntity bookEntity = bookMapper.mapFrom(bookDto);
         BookEntity updatedBookEntity = bookService.partialUpdate(isbn, bookEntity);
         return new ResponseEntity<>(bookMapper.mapTo(updatedBookEntity), HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDto> deleteBook(@PathVariable("isbn") String isbn){
+        boolean bookExists = bookService.exists(isbn);
+
+        if(!bookExists)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        bookService.delete(isbn);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

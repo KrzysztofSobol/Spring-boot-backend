@@ -191,4 +191,27 @@ public class AuthorControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.age").value(28)
         );
     }
+
+    @Test
+    public void testThatDeleteReturnsHttpStatus404WhenNotFound() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/authors/999")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNoContent()
+        );
+    }
+
+    @Test
+    public void testThatDeleteReturnsHttpStatus204WhenFound() throws Exception {
+        AuthorEntity authorEntity = TestDataUtil.createTestAuthorA();
+        authorService.save(authorEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/authors/" + authorEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNoContent()
+        );
+    }
 }
