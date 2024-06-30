@@ -121,13 +121,24 @@ public class BookControllerIntegrationTests {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/books")
+                        .param("page", "0")   // Page number
+                        .param("size", "10")  // Page size
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].isbn").value("1111-1111-1111-1111")
+                MockMvcResultMatchers.status().isOk()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].title").value("Iron Man")
+                MockMvcResultMatchers.jsonPath("$.content[0].isbn").value("1111-1111-1111-1111")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.content[0].title").value("Iron Man")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.size").value(10)   // Check page size
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.number").value(0)  // Check page number
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.totalElements").value(1) // Check total elements
         );
     }
+
 
     @Test
     public void testThatGetBookIdReturnsHttpStatus200ok() throws Exception {
