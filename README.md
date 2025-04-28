@@ -1,6 +1,7 @@
 # Spring Boot
- Learning spring boot
 
+
+Other Java EE projects
 https://github.com/KrzysztofSobol/task1Java
 
 https://github.com/KrzysztofSobol/task2Java
