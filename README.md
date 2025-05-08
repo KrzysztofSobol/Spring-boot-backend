@@ -18,6 +18,7 @@ This repository is part of a collection of Java EE learning projects:
 2. [Task 2](https://github.com/KrzysztofSobol/task2Java) - Logging implementation with JDK Logging
 3. [Task 3](https://github.com/KrzysztofSobol/task3Java) - JPA with EclipseLink 4.0.2
 4. [Task 4](https://github.com/KrzysztofSobol/task4Java) - Implementation of NamedQueries
+5. [Java class project](https://github.com/KrzysztofSobol/pc-builder-website) - Java class final project
 
 ---
 
